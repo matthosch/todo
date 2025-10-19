@@ -15,6 +15,7 @@ func NewRootCmd(ds *todo.DataStore) *cobra.Command {
 		Short: "A simple todo application",
 	}
 	rootCmd.AddCommand(newAddCommand(ds))
+	rootCmd.AddCommand(newListCommand(ds))
 
 	return rootCmd
 }
