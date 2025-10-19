@@ -1,12 +1,12 @@
 package todo
 
-type todo struct {
+type Todo struct {
 	Description string
 	Completed   bool
 }
 
-func NewTodo(description string) *todo {
-	return &todo{
+func NewTodo(description string) *Todo {
+	return &Todo{
 		Description: description,
 		Completed:   false,
 	}

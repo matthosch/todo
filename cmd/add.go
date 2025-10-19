@@ -1,5 +1,5 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyright © 2025 Matt Hosch mhosch24@gmail.com
 */
 package cmd
 
@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	todo "github.com/matthosch/todo/internal"
+	"github.com/matthosch/todo/internal/todo"
 	"github.com/spf13/cobra"
 )
 

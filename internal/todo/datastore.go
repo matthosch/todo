@@ -16,7 +16,7 @@ func NewDataStore(filePath string) *DataStore {
 	}
 }
 
-func (ds *DataStore) Add(todo todo) error {
+func (ds *DataStore) Add(todo Todo) error {
 	todos, err := ds.Load()
 	if err != nil {
 		return fmt.Errorf("error loading todos: %v", err)
@@ -29,22 +29,27 @@ func (ds *DataStore) Add(todo todo) error {
 	return nil
 }
 
-func (ds *DataStore) Load() ([]todo, error) {
+func (ds *DataStore) Load() ([]Todo, error) {
 	data, err := os.ReadFile(ds.FilePath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			os.Create(ds.FilePath)
-			return []todo{}, nil
+			f, createErr := os.Create(ds.FilePath)
+			if createErr != nil {
+				return nil, createErr
+			}
+			defer f.Close()
 		}
-		return nil, err
 	}
-	var todos []todo
-	json.Unmarshal(data, &todos)
+
+	var todos []Todo
+	if err := json.Unmarshal(data, &todos); err != nil {
+		return nil, fmt.Errorf("error unmarshaling todos: %w", err)
+	}
 
 	return todos, nil
 }
 
-func (ds *DataStore) Save(todos []todo) error {
+func (ds *DataStore) Save(todos []Todo) error {
 	data, err := json.MarshalIndent(todos, "", " ")
 	if err != nil {
 		return fmt.Errorf("error marshaling todos: %w", err)

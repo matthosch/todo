@@ -1,11 +1,21 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyright © 2025 Matt Hosch mhosch24@gmail.com
 */
 package main
 
-import "github.com/matthosch/todo/cmd"
+import (
+	"fmt"
+	"os"
+
+	"github.com/matthosch/todo/cmd"
+	"github.com/matthosch/todo/internal/todo"
+)
 
 func main() {
-	rootCmd := cmd.NewRootCmd()
-	rootCmd.Execute()
+	ds := todo.NewDataStore("todos.json")
+	rootCmd := cmd.NewRootCmd(ds)
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 }
