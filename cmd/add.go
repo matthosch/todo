@@ -18,7 +18,7 @@ func newAddCommand(ds *todo.DataStore) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			description := strings.Join(args, " ")
 			todo := todo.NewTodo(description)
-			if err := ds.Add(*todo); err != nil {
+			if err := ds.Add(todo); err != nil {
 				fmt.Println("Error adding todo:", err)
 				return
 			}

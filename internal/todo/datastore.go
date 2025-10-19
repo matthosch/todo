@@ -16,13 +16,13 @@ func NewDataStore(filePath string) *DataStore {
 	}
 }
 
-func (ds *DataStore) Add(todo Todo) error {
+func (ds *DataStore) Add(todo *Todo) error {
 	todos, err := ds.Load()
 	if err != nil {
 		return fmt.Errorf("error loading todos: %v", err)
 	}
 
-	todos = append(todos, todo)
+	todos = append(todos, *todo)
 	if err := ds.Save(todos); err != nil {
 		return fmt.Errorf("error saving todos: %v", err)
 	}
@@ -33,6 +33,7 @@ func (ds *DataStore) Load() ([]Todo, error) {
 	data, err := os.ReadFile(ds.FilePath)
 	if err != nil {
 		if os.IsNotExist(err) {
+			fmt.Printf("Data file does not exist, creating %s.", ds.FilePath)
 			f, createErr := os.Create(ds.FilePath)
 			if createErr != nil {
 				return nil, createErr
