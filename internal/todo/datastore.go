@@ -33,12 +33,12 @@ func (ds *DataStore) Load() ([]Todo, error) {
 	data, err := os.ReadFile(ds.FilePath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			fmt.Printf("Data file does not exist, creating %s.", ds.FilePath)
-			f, createErr := os.Create(ds.FilePath)
-			if createErr != nil {
-				return nil, createErr
+			fmt.Printf("Data file does not exist, creating %s.\n", ds.FilePath)
+			err := os.WriteFile(ds.FilePath, []byte{}, 0644)
+			if err != nil {
+				return nil, err
 			}
-			defer f.Close()
+			return []Todo{}, nil
 		}
 	}
 
