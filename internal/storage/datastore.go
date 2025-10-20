@@ -1,22 +1,30 @@
-package todo
+package storage
 
 import (
 	"encoding/json"
 	"fmt"
 	"os"
+
+	"github.com/matthosch/todo/internal/todo"
 )
 
-type DataStore struct {
-	FilePath string
+type DataStore interface {
+	Add(todo *todo.Todo) error
+	Load() ([]todo.Todo, error)
+	Save(todos []todo.Todo) error
 }
 
-func NewDataStore(filePath string) *DataStore {
-	return &DataStore{
-		FilePath: filePath,
+type jsonStore struct {
+	filePath string
+}
+
+func NewJSONStore(filePath string) *jsonStore {
+	return &jsonStore{
+		filePath: filePath,
 	}
 }
 
-func (ds *DataStore) Add(todo *Todo) error {
+func (ds *jsonStore) Add(todo *todo.Todo) error {
 	todos, err := ds.Load()
 	if err != nil {
 		return fmt.Errorf("error loading todos: %v", err)
@@ -29,20 +37,20 @@ func (ds *DataStore) Add(todo *Todo) error {
 	return nil
 }
 
-func (ds *DataStore) Load() ([]Todo, error) {
-	data, err := os.ReadFile(ds.FilePath)
+func (ds *jsonStore) Load() ([]todo.Todo, error) {
+	data, err := os.ReadFile(ds.filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			fmt.Printf("Data file does not exist, creating %s.\n", ds.FilePath)
-			err := os.WriteFile(ds.FilePath, []byte{}, 0644)
+			fmt.Fprintf(os.Stderr, "Data file does not exist, creating %s.\n", ds.filePath)
+			err := os.WriteFile(ds.filePath, []byte("[]"), 0644)
 			if err != nil {
 				return nil, err
 			}
-			return []Todo{}, nil
+			return []todo.Todo{}, nil
 		}
 	}
 
-	var todos []Todo
+	var todos []todo.Todo
 	if err := json.Unmarshal(data, &todos); err != nil {
 		return nil, fmt.Errorf("error unmarshaling todos: %w", err)
 	}
@@ -50,13 +58,13 @@ func (ds *DataStore) Load() ([]Todo, error) {
 	return todos, nil
 }
 
-func (ds *DataStore) Save(todos []Todo) error {
+func (ds *jsonStore) Save(todos []todo.Todo) error {
 	data, err := json.MarshalIndent(todos, "", " ")
 	if err != nil {
 		return fmt.Errorf("error marshaling todos: %w", err)
 	}
 
-	err = os.WriteFile(ds.FilePath, data, 0644)
+	err = os.WriteFile(ds.filePath, data, 0644)
 	if err != nil {
 		return fmt.Errorf("error writing todos to file: %w", err)
 	}

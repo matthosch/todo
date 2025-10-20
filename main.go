@@ -8,11 +8,11 @@ import (
 	"os"
 
 	"github.com/matthosch/todo/cmd"
-	"github.com/matthosch/todo/internal/todo"
+	"github.com/matthosch/todo/internal/storage"
 )
 
 func main() {
-	ds := todo.NewDataStore("todos.json")
+	ds := storage.NewJSONStore("todos.json")
 	rootCmd := cmd.NewRootCmd(ds)
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintln(os.Stderr, err)

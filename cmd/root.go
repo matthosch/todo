@@ -4,12 +4,12 @@ Copyright © 2025 Matt Hosch mhosch24@gmail.com
 package cmd
 
 import (
-	"github.com/matthosch/todo/internal/todo"
+	"github.com/matthosch/todo/internal/storage"
 
 	"github.com/spf13/cobra"
 )
 
-func NewRootCmd(ds *todo.DataStore) *cobra.Command {
+func NewRootCmd(ds storage.DataStore) *cobra.Command {
 	rootCmd := &cobra.Command{
 		Use:   "todo",
 		Short: "A simple todo application",

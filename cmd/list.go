@@ -3,11 +3,11 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/matthosch/todo/internal/todo"
+	"github.com/matthosch/todo/internal/storage"
 	"github.com/spf13/cobra"
 )
 
-func newListCommand(ds *todo.DataStore) *cobra.Command {
+func newListCommand(ds storage.DataStore) *cobra.Command {
 	listCmd := &cobra.Command{
 		Use:   "list",
 		Short: "List all todos",

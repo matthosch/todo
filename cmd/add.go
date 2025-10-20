@@ -7,11 +7,12 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/matthosch/todo/internal/storage"
 	"github.com/matthosch/todo/internal/todo"
 	"github.com/spf13/cobra"
 )
 
-func newAddCommand(ds *todo.DataStore) *cobra.Command {
+func newAddCommand(ds storage.DataStore) *cobra.Command {
 	addCmd := &cobra.Command{
 		Use:   "add",
 		Short: "Add a new todo",
