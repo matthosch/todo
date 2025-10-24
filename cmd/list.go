@@ -18,7 +18,7 @@ func newListCommand(ds storage.DataStore) *cobra.Command {
 				return
 			}
 			for _, t := range todos {
-				fmt.Printf("- %s\n", t.Description)
+				fmt.Printf("- %s\n", t.Title)
 			}
 		},
 	}
