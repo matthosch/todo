@@ -18,7 +18,11 @@ func newListCommand(ds storage.DataStore) *cobra.Command {
 				return
 			}
 			for _, t := range todos {
-				fmt.Printf("- %s\n", t.Title)
+				status := "[ ]"
+				if t.Completed {
+					status = "[x]"
+				}
+				fmt.Printf("%s %s\n", status, t.Task)
 			}
 		},
 	}

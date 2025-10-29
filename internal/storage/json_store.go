@@ -64,3 +64,20 @@ func (ds *jsonStore) Save(todos []todo.Todo) error {
 	}
 	return nil
 }
+
+func (ds *jsonStore) Complete(id int) error {
+	todos, err := ds.Load()
+	if err != nil {
+		return fmt.Errorf("error loading todos: %v", err)
+	}
+
+	if id < 1 || id > len(todos) {
+		return fmt.Errorf("invalid selection: %d", id)
+	}
+	todos[id-1].Completed = true
+
+	if err := ds.Save(todos); err != nil {
+		return fmt.Errorf("error saving todos: %v", err)
+	}
+	return nil
+}

@@ -2,21 +2,17 @@ package todo
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type Todo struct {
-	ID        string    `json:"id"`
-	Title     string    `json:"title"`
+	Task      string    `json:"task"`
 	Completed bool      `json:"completed"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
-func NewTodo(description string) *Todo {
+func NewTodo(task string) *Todo {
 	return &Todo{
-		ID:        uuid.New().String(),
-		Title:     description,
+		Task:      task,
 		Completed: false,
 		CreatedAt: time.Now(),
 	}

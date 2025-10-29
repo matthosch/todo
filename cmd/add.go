@@ -23,7 +23,7 @@ func newAddCommand(ds storage.DataStore) *cobra.Command {
 				fmt.Println("Error adding todo:", err)
 				return
 			}
-			fmt.Println("Todo added:", todo.Title)
+			fmt.Println("Todo added:", todo.Task)
 		},
 	}
 

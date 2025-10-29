@@ -16,6 +16,7 @@ func NewRootCmd(ds storage.DataStore) *cobra.Command {
 	}
 	rootCmd.AddCommand(newAddCommand(ds))
 	rootCmd.AddCommand(newListCommand(ds))
+	rootCmd.AddCommand(newCompleteCommand(ds))
 
 	return rootCmd
 }
