@@ -18,7 +18,7 @@ func NewSQLiteStore(dbPath string) *sqliteStore {
 	}
 	createTableSQL := `CREATE TABLE IF NOT EXISTS todos (
 		"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-		"title" TEXT,
+		"task" TEXT,
 		"completed" BOOLEAN,
 		"created_at" DATETIME
 	);`
